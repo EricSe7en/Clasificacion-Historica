@@ -1,3 +1,5 @@
+import os
+
 import streamlit as st
 import pandas as pd
 import plotly.express as px
@@ -5,15 +7,21 @@ import plotly.graph_objects as go
 
 st.set_page_config(page_title="Clasificación Histórica", page_icon="⚽", layout="wide")
 
+# Carpeta "data" siempre relativa a la ubicación de este archivo,
+# para que funcione sin importar cuál sea el directorio de trabajo
+# (por ejemplo, en Streamlit Community Cloud).
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DATA_DIR = os.path.join(BASE_DIR, "data")
+
 
 # ----------------------------------------------------------------------
 # Carga de datos
 # ----------------------------------------------------------------------
 @st.cache_data
 def load_data():
-    df = pd.read_csv("data/temporadas.csv")
-    meta = pd.read_csv("data/equipos_meta.csv")
-    linajes = pd.read_csv("data/linajes.csv")
+    df = pd.read_csv(os.path.join(DATA_DIR, "temporadas.csv"))
+    meta = pd.read_csv(os.path.join(DATA_DIR, "equipos_meta.csv"))
+    linajes = pd.read_csv(os.path.join(DATA_DIR, "linajes.csv"))
     return df, meta, linajes
 
 
